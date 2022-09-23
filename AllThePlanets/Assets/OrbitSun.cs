@@ -9,21 +9,13 @@ public class OrbitSun : MonoBehaviour
     public float initialSpeedZ;
 
     // Start is called before the first frame update
-    float x;
-    float y;
-    float z;
-    float dx;
-    float dy;
-    float dz;
+    Vector3 pos;
+    Vector3 vel;
     void Start()
     {
         // Initial states (position and velocity)
-        x = transform.position.x;
-        y = transform.position.y;
-        z = transform.position.z;
-        dx = initialSpeedX;
-        dy = initialSpeedY;
-        dz = initialSpeedZ;
+        pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        vel = new Vector3(initialSpeedX, initialSpeedY, initialSpeedZ);
     }
 
     // Update is called once per frame
@@ -32,33 +24,19 @@ public class OrbitSun : MonoBehaviour
     {
         float dt = Time.deltaTime;
 
-        float[] u = new float[] { x, y, z, dx, dy, dz };
-        //print(string.Join(", ", u));
-        Vector3 q = new Vector3(x, y, z);
-        Vector3 s = new Vector3(dx, dy, dz);
-        Vector3[] du = f(q, s);
+        // Get derivatives of states
+        Vector3[] du = f(pos, vel);
 
-        /*float[] uNext = rk4(u, dt);
-        print(string.Join(", ", uNext));
-        */
+        // Update position
         Vector3 dq = du[0];
-        x += dt * dq.x;
-        y += dt * dq.y;
-        z += dt * dq.z;
+        pos += dq * dt;
 
+        // Update velocity
         Vector3 ds = du[1];
-        dx += dt * ds.x;
-        dy += dt * ds.y;
-        dz += dt * ds.z;
+        vel += ds * dt;
 
-        /*x = uNext[0];
-        y = uNext[1];
-        z = uNext[2];
-        dx = uNext[3];
-        dy = uNext[4];
-        dz = uNext[5];*/
-
-        transform.position = new Vector3(x, y, z);
+        // Update transform
+        transform.position = new Vector3(pos.x, pos.y, pos.z);
     }
 
     /**
@@ -96,7 +74,6 @@ public class OrbitSun : MonoBehaviour
         Vector3 ds = -q.normalized * solarMass / r / r;
 
         // Derivatives of state vector
-        //return new float[6] { s.x, s.y, s.z, ds.x, ds.y, ds.z };
         return new Vector3[] { s, ds };
     }
 }
