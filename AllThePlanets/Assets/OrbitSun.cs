@@ -27,25 +27,29 @@ public class OrbitSun : MonoBehaviour
     }
 
     // Update is called once per frame
-    float solarMass = 10f;  // TODO: Scale this so the orbits happen in some desired time on a 10x10-ish surface
+    float solarMass = 20f;  // TODO: Scale this so the orbits happen in some desired time on a 10x10-ish surface
     void Update()
     {
         float dt = Time.deltaTime;
 
         float[] u = new float[] { x, y, z, dx, dy, dz };
         //print(string.Join(", ", u));
-        float[] du = f(u);
+        Vector3 q = new Vector3(x, y, z);
+        Vector3 s = new Vector3(dx, dy, dz);
+        Vector3[] du = f(q, s);
 
         /*float[] uNext = rk4(u, dt);
         print(string.Join(", ", uNext));
         */
+        Vector3 dq = du[0];
+        x += dt * dq.x;
+        y += dt * dq.y;
+        z += dt * dq.z;
 
-        x += dt * du[0];
-        y += dt * du[1];
-        z += dt * du[2];
-        dx += dt * du[3];
-        dy += dt * du[4];
-        dz += dt * du[5];
+        Vector3 ds = du[1];
+        dx += dt * ds.x;
+        dy += dt * ds.y;
+        dz += dt * ds.z;
 
         /*x = uNext[0];
         y = uNext[1];
@@ -60,7 +64,7 @@ public class OrbitSun : MonoBehaviour
     /**
      * Runga-Kutta Fourth Order
      */
-    float[] rk4(float[] u, float dt)
+    /*float[] rk4(float[] u, float dt)
     {
         float[] k1 = f(u);
         float[] k2 = f(k1);
@@ -74,26 +78,25 @@ public class OrbitSun : MonoBehaviour
             u[4] + 1f/6f * (k1[4] + 2f*k2[4] + 2f*k3[4] + k4[4]) * dt,
             u[5] + 1f/6f * (k1[5] + 2f*k2[5] + 2f*k3[5] + k4[5]) * dt,
         };
-    }
+    }*/
 
     /**
      * TODO: function to add u + dt * f(u)
      */
 
-    float[] f(float[] u)
+    /**
+     * Equation of motion
+     */
+    Vector3[] f(Vector3 q, Vector3 s)
     {
         // Radius away from the sun
-        float r = Mathf.Sqrt(u[0]*u[0] + u[1]*u[1] + u[2]*u[2]);
+        float r = q.magnitude;
 
-        // Radius-cubed
-        float r3 = Mathf.Pow(r, 3);
-        //print(r3);
         // Accelerations in each direction
-        float ddx = -u[0] * solarMass / r3;
-        float ddy = -u[1] * solarMass / r3;
-        float ddz = -u[2] * solarMass / r3;
+        Vector3 ds = -q.normalized * solarMass / r / r;
 
         // Derivatives of state vector
-        return new float[6] { u[3], u[4], u[5], ddx, ddy, ddz };
+        //return new float[6] { s.x, s.y, s.z, ds.x, ds.y, ds.z };
+        return new Vector3[] { s, ds };
     }
 }
