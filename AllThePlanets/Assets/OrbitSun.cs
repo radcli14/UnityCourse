@@ -17,13 +17,10 @@ public class OrbitSun : MonoBehaviour
     }
 
     // Update is called once per frame
-    float solarMass = 20f;  // TODO: Scale this so the orbits happen in some desired time on a 10x10-ish surface
     void Update()
     {
-        float dt = Time.deltaTime;
-
         // Call Runga-Kutta Fourth Order alogorithm and update states
-        Vector3[] newStates = rk4(transform.position, vel, dt);
+        Vector3[] newStates = rk4(transform.position, vel, Time.deltaTime);
         transform.position = newStates[0];
         vel = newStates[1];
     }
@@ -46,6 +43,7 @@ public class OrbitSun : MonoBehaviour
     /**
      * Equation of motion
      */
+    float solarMass = 20f;  // TODO: Scale this so the orbits happen in some desired time on a 10x10-ish surface
     Vector3[] f(Vector3 q, Vector3 s)
     {
         // Radius away from the sun
