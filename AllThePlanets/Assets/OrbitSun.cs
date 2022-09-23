@@ -24,16 +24,10 @@ public class OrbitSun : MonoBehaviour
     {
         float dt = Time.deltaTime;
 
-        // Get derivatives of states
-        Vector3[] du = f(pos, vel);
-
-        // Update position
-        Vector3 dq = du[0];
-        pos += dq * dt;
-
-        // Update velocity
-        Vector3 ds = du[1];
-        vel += ds * dt;
+        // Call Runga-Kutta Fourth Order alogorithm
+        Vector3[] newStates = rk4(pos, vel, dt);
+        pos = newStates[0];
+        vel = newStates[1];
 
         // Update transform
         transform.position = new Vector3(pos.x, pos.y, pos.z);
@@ -42,25 +36,17 @@ public class OrbitSun : MonoBehaviour
     /**
      * Runga-Kutta Fourth Order
      */
-    /*float[] rk4(float[] u, float dt)
+    Vector3[] rk4(Vector3 q, Vector3 s, float dt)
     {
-        float[] k1 = f(u);
-        float[] k2 = f(k1);
-        float[] k3 = f(k2);
-        float[] k4 = f(k3);
-        return new float[6] {
-            u[0] + 1f/6f * (k1[0] + 2f*k2[0] + 2f*k3[0] + k4[0]) * dt,
-            u[1] + 1f/6f * (k1[1] + 2f*k2[1] + 2f*k3[1] + k4[1]) * dt,
-            u[2] + 1f/6f * (k1[2] + 2f*k2[2] + 2f*k3[2] + k4[2]) * dt,
-            u[3] + 1f/6f * (k1[3] + 2f*k2[3] + 2f*k3[3] + k4[3]) * dt,
-            u[4] + 1f/6f * (k1[4] + 2f*k2[4] + 2f*k3[4] + k4[4]) * dt,
-            u[5] + 1f/6f * (k1[5] + 2f*k2[5] + 2f*k3[5] + k4[5]) * dt,
+        Vector3[] k1 = f(q, s);
+        Vector3[] k2 = f(q + 0.5f*dt*k1[0], s + 0.5f*dt*k1[1]);
+        Vector3[] k3 = f(q + 0.5f*dt*k2[0], s + 0.5f*dt*k2[1]);
+        Vector3[] k4 = f(q + dt*k3[0], s + dt*k3[1]);
+        return new Vector3[] {
+            q + 1f/6f * (k1[0] + 2f*k2[0] + 2f*k3[0] + k4[0]) * dt,
+            s + 1f/6f * (k1[1] + 2f*k2[1] + 2f*k3[1] + k4[1]) * dt
         };
-    }*/
-
-    /**
-     * TODO: function to add u + dt * f(u)
-     */
+    }
 
     /**
      * Equation of motion
