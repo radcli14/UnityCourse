@@ -9,12 +9,10 @@ public class OrbitSun : MonoBehaviour
     public float initialSpeedZ;
 
     // Start is called before the first frame update
-    Vector3 pos;
     Vector3 vel;
     void Start()
     {
-        // Initial states (position and velocity)
-        pos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        // Initial velocity vector
         vel = new Vector3(initialSpeedX, initialSpeedY, initialSpeedZ);
     }
 
@@ -24,13 +22,10 @@ public class OrbitSun : MonoBehaviour
     {
         float dt = Time.deltaTime;
 
-        // Call Runga-Kutta Fourth Order alogorithm
-        Vector3[] newStates = rk4(pos, vel, dt);
-        pos = newStates[0];
+        // Call Runga-Kutta Fourth Order alogorithm and update states
+        Vector3[] newStates = rk4(transform.position, vel, dt);
+        transform.position = newStates[0];
         vel = newStates[1];
-
-        // Update transform
-        transform.position = new Vector3(pos.x, pos.y, pos.z);
     }
 
     /**
