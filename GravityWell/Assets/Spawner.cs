@@ -5,13 +5,14 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject marble;
-    List<MarbleBehavior> marbles;
+    List<GameObject> marbles = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
-        var foundMarbles = FindObjectsOfType<MarbleBehavior>();
-        marbles = new List<MarbleBehavior>(foundMarbles);
+        // Spawn the first marble
+        var newMarble = Instantiate(marble);
+        marbles.Add(newMarble);
     }
 
     // Update is called once per frame
@@ -20,17 +21,16 @@ public class Spawner : MonoBehaviour
 
     }
 
-    float elapsed = 5f;
+    float respawnTime = 3.14159f / 2f;
+    float elapsed = 0f;
     private void FixedUpdate()
     {
         elapsed += Time.deltaTime;
-        if (elapsed >= 5f)
+        if (elapsed >= respawnTime)
         {
             // Spawn a new marble
             var newMarble = Instantiate(marble);
-            var behavior = newMarble.gameObject.GetComponent<MarbleBehavior>();
-            marbles.Add(behavior);
-            //marbles.Add(newMarble);
+            marbles.Add(newMarble);
 
             // Reset the clock
             elapsed = 0f;
