@@ -8,7 +8,7 @@ public class MarbleBehavior : MonoBehaviour
     void Start()
     {
         var rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(0f, 0f, 0.9f);
+        rb.velocity = new Vector3(0f, 0f, 2.4f);
     }
 
     // Update is called once per frame

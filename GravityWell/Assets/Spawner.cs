@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    float respawnTime = 3.14159f / 2f;
+    float respawnTime = 3.14159f / 16f;
     float elapsed = 0f;
     void Update()
     {
@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour
         // Check if marbles have fallen, if they have, DESTROY!
         marbles.ForEach(marble =>
             {
-                if (marble.transform.position.y < 0)
+                if (marble.transform.position.y < -10)
                 {
                     // If we're destroying the marble that the eye is looking
                     // at, switch to the one that was created most recently
