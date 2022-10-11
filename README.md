@@ -10,3 +10,8 @@ Scripting in Unity to render a solar system.
 Experimenting with spotlights and collisions.
 
 [![Bouncy](assets/BouncyAttractors.png)](https://www.youtube.com/watch?v=i0EKXJQaJZg)
+
+## Gravity Well
+Instantiating prefabs, and destroying. And a surface generated in [Blender](https://www.blender.org).
+
+[![Gravity Well](assets/GravityWell.png)](https://www.youtube.com/watch?v=6e7GqcOHLlE)
