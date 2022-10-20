@@ -6,7 +6,7 @@ public class Baller : MonoBehaviour
 {
     public GameObject Sensai;
     List<GameObject> sensais = new List<GameObject>();
-    int nSensais = 50;
+    int nSensais = 500;
 
     // Start is called before the first frame update
     void Start()
