@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6436620787194527963}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.5}
-  m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -110,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8c82f8886ba447b7bb6956bf4828837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 0}
   beforeTouch: {fileID: 2100000, guid: 95f6f487b037a4f049554d8322b8d593, type: 2}
-  afterTouch: {fileID: 2100000, guid: 8a17de3f9835a4eea98144537efac8d3, type: 2}
+  teeTouch: {fileID: 2100000, guid: 8a17de3f9835a4eea98144537efac8d3, type: 2}
   handleTouch: {fileID: 2100000, guid: feb96c72f0b4243ef829fc57a8cf0eba, type: 2}

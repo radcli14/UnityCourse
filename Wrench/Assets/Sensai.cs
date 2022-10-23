@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Sensai : MonoBehaviour
 {
-    private bool isCoroutineExecuting = false;
-    public Material material;
+    // Materials
     public Material beforeTouch;
-    public Material afterTouch;
+    public Material teeTouch;
     public Material handleTouch;
 
-    private float ex = Random.Range(-1f, 1f);
-    private float ey = Random.Range(-1f, 1f);
-    private float ez = Random.Range(-1f, 1f);
+    // Rotation axis
+    private float ex;
+    private float ey;
+    private float ez;
+
+    // Interpolation settings
+    private float waitTime = 0.25f;
+    private Vector3 bigScale = new Vector3(0.25f, 0.25f, 0.25f);
+    private Vector3 smallScale = new Vector3(0.025f, 0.025f, 0.025f);
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +28,12 @@ public class Sensai : MonoBehaviour
         float z = Random.Range(-1f, 1f);
         Vector3 randPosition = new Vector3(x, y, z);
         transform.position = 1.5f * randPosition.normalized;
+        transform.localScale = smallScale;
+
+        // Initial setting for the vector used for the rotation axis
+        ex = Random.Range(-1f, 1f);
+        ey = Random.Range(-1f, 1f);
+        ez = Random.Range(-1f, 1f);
     }
 
     // Update is called once per frame
@@ -36,24 +47,36 @@ public class Sensai : MonoBehaviour
         transform.RotateAround(new Vector3(0f, 0f, 0f), randAxis, 0.1f);
     }
 
+    /**
+    * Function that is triggered when this sensai collides with the wrench
+    */
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "Tee")
         {
-            GetComponent<Renderer>().material = afterTouch;
+            GetComponent<Renderer>().material = teeTouch;
         }
         else
         {
             GetComponent<Renderer>().material = handleTouch;
         }
-        transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         StartCoroutine(ReturnToBeforeTouch());
     }
 
+    /**
+    * Coroutine to gradually shrink the sensai to its original size
+    */
     IEnumerator ReturnToBeforeTouch()
     {
-        yield return new WaitForSeconds(0.5f);
+        float t = 0f;
+        while (t < waitTime)
+        {
+            t += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(bigScale, smallScale, t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(waitTime);
         GetComponent<Renderer>().material = beforeTouch;
-        transform.localScale = new Vector3(0.025f, 0.025f, 0.025f);
+        transform.localScale = smallScale;
     }
 }
