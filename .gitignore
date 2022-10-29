@@ -1,5 +1,11 @@
 # My own additions in this section
 *.DS_Store
+*.blend
+*.blend1
+*.stl
+assets/*.fbx
+assets/*.obj
+assets/*.mtl
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
