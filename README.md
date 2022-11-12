@@ -15,3 +15,9 @@ Experimenting with spotlights and collisions.
 Instantiating prefabs, and destroying. And a surface generated in [Blender](https://www.blender.org).
 
 [![Gravity Well](assets/GravityWell.png)](https://www.youtube.com/watch?v=6e7GqcOHLlE)
+
+## Spinning Wrench
+Using sensors to update the size and color of objects when they are contacted.
+Also, demonstrating the intermediate axis theorem by writing my own physics simulation code (built-in physics engine didn't do it right).
+
+[![Spinning Wrench](assets/spinningWrench.png)](https://www.youtube.com/watch?v=RoqVRygZYq8)
